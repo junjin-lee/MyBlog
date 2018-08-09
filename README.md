@@ -21,13 +21,13 @@
 5.vue-router  
 
 ## 开发部署环境
-Redis
-MySQL
-RabbitMQ
-Java8
-Lombok
-Jenkins
-docker
+Redis  
+MySQL  
+RabbitMQ  
+Java8  
+Lombok  
+Jenkins  
+docker  
 nginx
 
 ## 配置搭建
