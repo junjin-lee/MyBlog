@@ -20,6 +20,11 @@
 4.vue-echarts  
 5.vue-router  
 
+## 版本管理及自动化部署
+1.GitLab  
+2.Jenkins  
+3.Docker
+
 ## 开发部署环境
 Redis  
 MySQL  
@@ -28,7 +33,8 @@ Java8
 Lombok  
 Jenkins  
 docker  
-nginx
+nginx  
+GitLab
 
 ## 配置搭建
 
