@@ -5,9 +5,9 @@
 后端主要采用了：  
 
 1.SpringBoot  
-2.Spring Data JPA 
+2.Spring Data JPA  
 3.Spring Security OAuth2  
-4.MySQL、Redis、RabbitMQ 
+4.MySQL、Redis、RabbitMQ  
 5.Swagger2   
 
 ## 前端技术栈
