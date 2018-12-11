@@ -1,4 +1,5 @@
 ## Centos下载与安装
+先安装mysql与git git版本大于2.1
 
 wget -O gitea https://dl.gitea.io/gitea/1.3.2/gitea-1.3.2-linux-amd64 
 
