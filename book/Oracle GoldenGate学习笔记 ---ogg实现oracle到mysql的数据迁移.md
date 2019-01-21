@@ -53,12 +53,14 @@ export GG_HOME=/opt/ggs
 export PATH=$JAVA_HOME/bin:$GG_HOME:$ORACLE_HOME/bin:$PATH
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$GG_HOME:$ORACLE_HOME/lib:/lib:/usr/lib
+
 ```
 建立OGG的安装目录:
-# mkdir /opt/ggs
-# chown -R oracle /opt/ggs
-# chmod -R 777 /opt/ggs
-
+```
+ mkdir /opt/ggs
+ chown -R oracle /opt/ggs
+ chmod -R 777 /opt/ggs
+```
 源数据库配置步骤
 1） 开启归档，--如未开启，重新开启需要重启实例，在mount状态下
 ```
@@ -88,10 +90,10 @@ SQL>create tablespace ggs datafile '/data/oradata/mcpdts1/ggs01.dbf' size 200m;
 
 --如要启用DDL功能，OGG用户需要独立的表空间。
 
-3.ntp
+#3.ntp
   Oracle ggs 对源端数据的抽取跟时序有依赖，所以在源端为RAC环境的系统，强烈建议在RAC节点间使用NTP进行时钟同步，以减少时序错乱而导致ggs Extract意外停止的风险。
   
-4.数据库归档：
+#4.数据库归档：
   数据库应处于归档模式：
     archive log list
   归档目录：
@@ -99,7 +101,7 @@ SQL>create tablespace ggs datafile '/data/oradata/mcpdts1/ggs01.dbf' size 200m;
   打开force logging：
     alter database force logging;
 
-5.数据库参数设置：
+#5.数据库参数设置：
   源主机ORACLE数据库为11.2.0.4或以后的版本，需要设置以下参数：
   源端：
     alter system set enable_goldengate_replication=true scope=both;
@@ -109,19 +111,19 @@ SQL>create tablespace ggs datafile '/data/oradata/mcpdts1/ggs01.dbf' size 200m;
   注：打开补充日志最好在夜里业务很少的时候进行。如果是RAC 需要在每个节点上都执行。
   完成后建议执行一次归档操作：
     alter system archive log current;
-7.网络设置：
+#6.网络设置：
 Oracle GoldenGate 只需要复制两端的IP 地址之间能够建立TCP 连接，一个Goldengate 复制链路需要10 个TCP 动态端口，具体端口建议使用7839~7849
 
-8. 操作系统用户：
+#7. 操作系统用户：
 使用oracle安装、管理GoldenGate。
 
-9.创建文件系统：
+#8.创建文件系统：
 为 GoldenGate 创建文件系统，要求：
 1、Oracle GoldenGate 安装空间应当全部位于共享阵列；
 2、每个数据库对应一个Oracle GoldenGate 安装，如果是一个数据库上有多个Oracle 实例同样安装一套GoldenGate；
 3、在阵列上为每个Oracle GoldenGate 安装划分单独空间，所需空间大小可以参照源端数据库每天产生的归档日志量。例如源数据库每天产生150G 归档，则为该数据库对应的Oracle GoldenGate分配150G 空间；建议为Oracle GoldenGate 分配的空间不小于150G 左右。
 
-10.GoldenGate源端的安装：
+#9.GoldenGate源端的安装：
 安装 GoldenGate for Oracle x.x 必须遵循以下步骤：
 在 RAC 两个节点的任意节点以oracle 身份登录；
 运行如下命令完成GoldenGate 的安装：
@@ -133,7 +135,7 @@ Oracle GoldenGate 只需要复制两端的IP 地址之间能够建立TCP 连接�
 ./runInstaller -ignoreSysPrereqs -silent -responseFile /tmp/fbo_ggs_Linux_x64_shiphome/Disk1/oggcore.rsp
 此时，GoldenGate 源端产品安装部分已经完成。
 
-11. 创建 GoldenGate 运行时目录：
+#10. 创建 GoldenGate 运行时目录：
 在安装 GoldenGate 的节点上以oracle 用户身份登录；
 在源端执行：
 cd /opt/ggs
@@ -156,7 +158,16 @@ GGSCI> add trandata ggs.*
 管理器配置参数:
 GGSCI (iihdb) 1> edit param mgr
 PORT 7809
+DYNAMICPORTLIST 7810-7909
+--AUTOSTART ER *
+AUTORESTART EXTRACT *,RETRIES 5,WAITMINUTES 3
+PURGEOLDEXTRACTS ./dirdat/*,usecheckpoints
+LAGREPORTHOURS 1
+LAGINFOMINUTES 30
+LAGCRITICALMINUTES 45
 
+edit params ./GLOBALS
+ggschema ggs
 
 日志提取配置参数:
 GGSCI (iihdb) 1> edit params extastt
@@ -195,7 +206,6 @@ ADD EXTRACT group name, EXTTRAILSOURCE trail name
 
 (4.4).添加远程Trail文件(Add the Remote Trail):
 ADD RMTTRAIL pathname, EXTRACT group name
-
 
 例子:
 $ ggsci
