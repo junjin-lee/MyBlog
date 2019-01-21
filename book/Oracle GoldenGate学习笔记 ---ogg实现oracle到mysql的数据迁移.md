@@ -138,10 +138,11 @@ Oracle GoldenGate 只需要复制两端的IP 地址之间能够建立TCP 连接�
 #10. 创建 GoldenGate 运行时目录：
 在安装 GoldenGate 的节点上以oracle 用户身份登录；
 在源端执行：
+```
 cd /opt/ggs
  ./ggsci
  create subdirs
- 
+ ```
  
  (2).添加需要同步的表
 语法结构:
@@ -156,6 +157,7 @@ GGSCI> add trandata ggs.*
 
 (3).编辑源端系统配置参数.
 管理器配置参数:
+```
 GGSCI (iihdb) 1> edit param mgr
 PORT 7809
 DYNAMICPORTLIST 7810-7909
@@ -165,27 +167,30 @@ PURGEOLDEXTRACTS ./dirdat/*,usecheckpoints
 LAGREPORTHOURS 1
 LAGINFOMINUTES 30
 LAGCRITICALMINUTES 45
-
+```
+```
 edit params ./GLOBALS
 ggschema ggs
-
+```
 日志提取配置参数:
+```
 GGSCI (iihdb) 1> edit params extastt
 EXTRACT extastt
 USERID ggs, PASSWORD ggs
 EXTTRAIL /opt/ggs/dirdat/lt
 TABLE ggs.test_ogg;
-
+```
 
 
 数据传输配置参数:
+```
 GGSCI (iihdb) 1> edit params pumpastt
 extract pumpastt
 USERID ggs, PASSWORD ggs
 RMTHOST 154.8.157.145, MGRPORT 7809
 RMTTRAIL /opt/ggs/dirdat/rt
 table ggs.test_ogg;
-
+```
 
 (4).添加源端系统进程.
 (4.1).添加提取主进程(Adding the Primary Extract):
@@ -208,6 +213,7 @@ ADD EXTRACT group name, EXTTRAILSOURCE trail name
 ADD RMTTRAIL pathname, EXTRACT group name
 
 例子:
+```
 $ ggsci
 add extract extastt, tranlog, begin now
 add exttrail /opt/ggs/dirdat/lt, extract extastt
@@ -215,7 +221,7 @@ add extract pumpastt, exttrailsource /u01/app/ogg/12.2.0/dirdat/lt
 add rmttrail /opt/ggs/dirdat/rt, extract pumpastt
 start extract extastt
 start extract pumpastt
-
+```
 
 源端系统打开防火墙端口:1521,7809.
 
