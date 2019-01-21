@@ -251,6 +251,7 @@ GGSCI (iihdb) 1> edit params ./GLOBALS
 CHECKPOINTTABLE ggs.checkpoint
 ```
 二：目标端mysql ogg安装：
+
 1.把相应的table和database创建好，注意字段类型长度等，举例：
 oracle-->mysql
 number-->float
