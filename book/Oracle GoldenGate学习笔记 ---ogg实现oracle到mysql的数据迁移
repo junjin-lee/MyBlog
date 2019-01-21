@@ -1,4 +1,4 @@
-#1.Oracle GoldenGate的体系结构
+# 1.Oracle GoldenGate的体系结构
 Oracle GoldenGate(OGG)是一种基于日志的结构化数据复制方式，它通过解析源数据库在线日志或归档日志获得数据的增删改变化，再将这些变化应用到目标数据库，实现源数据库与目标数据库同步,双活。
 
 物理结构可分为源端(Source Server)，目标端(Target Server).
@@ -17,7 +17,7 @@ OGG要求源端数据库必须开启归档模式，以保证正常获取归档�
 二是增加单表级别的表结构字段信息的获取: add trandata.
 这两项操作可以保证所用的表都能正确抽取及复制。
 
-#2.Oracle GoldenGate 12c下载地址
+# 2.Oracle GoldenGate 12c下载地址
 进入Oracle官方网址www.oracle.com，选择Downloads/Middleware/GoldenGate
 http://www.oracle.com/technetwork/middleware/goldengate/downloads/index.html
 
@@ -31,14 +31,14 @@ Oracle GoldenGate安装很简单，但首先需要安装Oracle数据库，安装
 
 本例安装OGG的环境:
 
-    |             | 源端             |  目标端 |
-    | --------    | -----:           | :----: |
-    | 操作系统     | Centos7.4        |   Centos7.4    |
-    | 数据库       | Oracle11.2.0.4.0 |   mysql    |
-    | OGG版本      | Ogg              |   Ogg      |
-    | 安装目录     | /opt/ggs         |   /opt/ggs   |
-    | tail文件目录 | /opt/ggs/dirdat  |   /opt/ggs/dirdat       |
-    | 端口号      | 7809              |   7809      |
+    |             | 源端               |  目标端 |
+    | --------    | -----:             | :----: |
+    | 操作系统     | Centos7.4         |   Centos7.4    |
+    | 数据库       | Oracle11.2.0.4.0  |   mysql    |
+    | OGG版本      | Ogg               |   Ogg      |
+    | 安装目录     | /opt/ggs          |   /opt/ggs   |
+    | tail文件目录 | /opt/ggs/dirdat   |   /opt/ggs/dirdat       |
+    | 端口号       | 7809              |   7809      |
 
 需要设置Oracle数据库的全局变量:
 ```
