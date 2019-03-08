@@ -322,3 +322,43 @@ http://brynlewis.org/challenge/index.htm
 ## HL7 消息的作用
 互联互通 （HL7v2.0 HL7v3 FHIR）
 信息共享 （CDA）
+
+1.首先我们要对这个过程进行建模，也就是说需要对原有的模型进行裁剪，得到一个最终期待的HL7格式字符串或者xml
+2.各HIS系统开通基于HL7的传输接口进行信息交互（开始一份无值有结果的的xml文档，经过了这一系列过程，最终得到一份有数据的文档）
+3.如果我们要共享并记录这一医疗事务，我们就需要借助CDA
+例如
+```
+开始
+{
+  patinetId:"",
+  visitId:"",
+  temperature:"",
+  result:"",
+  .... 
+}
+
+走完流程之后
+{
+  patinetId:"123",
+  visitId:"1",
+  temperature:"37",
+  result:"正常",
+  .... 
+}
+```
+也就是说，我们每个HIS系统都要实现基于HL7协议的转换和解析。在现实情况下，几乎不可能实现这么大规模的标准化
+
+## 基于HL7协议的消息中间件
+从上述分析可知，正常情况下一个HIS系统，不可能去实现HL7协议，我们需要借助外部的程序，将非HL7的数据做数据转换。具体流程是这样的，仍然用上面的就诊流程来说，以json作为传输数据
+```
+Json->His系统->Json
+Json->中间件->HL7
+```
+这样就实现了任意的json转HL7的数据协议了。
+目前开源的HL7消息中间件 mirth-connect
+还有开源的基于Java的 Hapi,基于java的 HL7 V2.x 、FHIR 解析器
+```
+官网： https://hapifhir.github.io/hapi-hl7v2/
+hl7v2源码： https://github.com/hapifhir/hapi-hl7v2
+hapi-fhir:  https://github.com/jamesagnew/hapi-fhir
+```
